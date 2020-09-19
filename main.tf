@@ -416,7 +416,7 @@ locals {
     {
       namespace = "aws:elbv2:loadbalancer"
       name      = "AccessLogsS3Enabled"
-      value     = "true"
+      value     = var.alb_access_logs_enabled
     },
     {
       namespace = "aws:elbv2:loadbalancer"
@@ -487,10 +487,15 @@ locals {
       name      = "Port"
       value     = var.application_port
     },
+    # {
+    #   namespace = "aws:elasticbeanstalk:environment:process:443"
+    #   name      = "Port"
+    #   value     = var.application_port
+    # },
     {
       namespace = "aws:elasticbeanstalk:environment:process:default"
       name      = "Protocol"
-      value     = "HTTP"
+      value     = var.http_listener_enabled || var.loadbalancer_certificate_arn == "" ? "HTTP" : "HTTPS"
     }
   ]
 
